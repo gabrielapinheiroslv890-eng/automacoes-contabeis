@@ -17,6 +17,11 @@ Script Python que lê uma planilha de despesas e gera lançamentos contábeis em
 ### 3. [Dashboard de Apuração de Impostos](./dashboard-apuracao-impostos)
 Cálculo da apuração mensal do Simples Nacional (Anexo III) em Python, visualizado num dashboard Power BI com evolução do imposto e mudança de faixa ao longo do tempo.
 
+### 4. [Leitor de Extrato Bancário em PDF](./leitor-extrato-pdf)
+Extração automática de transações (data, descrição, valor) de PDFs de extrato bancário, com suporte a múltiplos formatos de valor usados por bancos diferentes. Se conecta com o Projeto 1 (conciliação bancária).
+
+**Stack:** Python, pdfplumber
+
 **Stack:** Python, Power BI
 
 ## Sobre
