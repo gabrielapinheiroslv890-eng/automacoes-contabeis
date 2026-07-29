@@ -9,6 +9,7 @@ nomes de arquivo fixos, e resultado exibido/baixável direto na tela.
 import io
 
 import pandas as pd
+         
 import streamlit as st
 
 CONTA_CREDITO_PADRAO = "1.1.2 - Bancos Conta Movimento"
@@ -27,15 +28,16 @@ def classificar_conta(categoria, plano_de_contas):
     return plano_de_contas.get(categoria, CONTA_NAO_CLASSIFICADA)
 
 
-def gerar_lancamentos(despesas, plano_de_contas):
+def gerar_lancamentos(despesas, plano_de_contas,forma_pagamento_contas):
     linhas = []
     for _, despesa in despesas.iterrows():
         conta_debito = classificar_conta(despesa["Categoria"], plano_de_contas)
+        conta_credito = forma_pagamento_contas.get(despesa["FormaPagamento"], CONTA_CREDITO_PADRAO)
         linhas.append({
             "Data": despesa["Data"],
             "Histórico": f"{despesa['Categoria']} - {despesa['Fornecedor']}",
             "Conta Débito": conta_debito,
-            "Conta Crédito": CONTA_CREDITO_PADRAO,
+            "Conta Crédito": conta_credito,
             "Valor": despesa["Valor"],
             "Precisa Revisão": conta_debito == CONTA_NAO_CLASSIFICADA,
         })
@@ -53,12 +55,14 @@ def main():
     st.title("📒 Gerador de Lançamentos Contábeis")
     st.caption("Envie a planilha de despesas e o plano de contas — o app gera os lançamentos automaticamente.")
 
-    col1, col2 = st.columns(2)
+    col1, col2, col3 = st.columns(3)
     with col1:
         arquivo_despesas = st.file_uploader("Planilha de Despesas (.xlsx)", type="xlsx")
     with col2:
         arquivo_plano = st.file_uploader("Plano de Contas (.xlsx)", type="xlsx")
-
+    with col3:
+        arquivo_forma_pagamento = st.file_uploader("Formas de Pagamento (.xlsx)", type ="xlsx")
+         
     if not (arquivo_despesas and arquivo_plano):
         st.info("Envie os dois arquivos pra continuar.")
         return
@@ -66,12 +70,14 @@ def main():
     try:
         despesas = carregar_planilha(arquivo_despesas, {"Data", "Fornecedor", "Categoria", "Valor"})
         plano_df = carregar_planilha(arquivo_plano, {"Categoria", "Conta"})
+        forma_pagamento_df = carregar_planilha(arquivo_forma_pagamento, {"FormaPagamento", "ContaCredito"})
+        forma_pagamento_contas = dict(zip(forma_pagamento_df["FormaPagamento"], forma_pagamento_df["ContaCredito"]))
         plano_de_contas = dict(zip(plano_df["Categoria"], plano_df["Conta"]))
     except ValueError as erro:
         st.error(f"Erro ao ler os arquivos: {erro}")
         return
 
-    lancamentos = gerar_lancamentos(despesas, plano_de_contas)
+    lancamentos = gerar_lancamentos(despesas, plano_de_contas,forma_pagamento_contas)
     total = lancamentos["Valor"].sum()
     pendentes = lancamentos["Precisa Revisão"].sum()
 
