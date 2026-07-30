@@ -22,6 +22,10 @@ Extração automática de transações (data, descrição, valor) de PDFs de ext
 
 **Stack:** Python, pdfplumber
 
+### 7. [Leitor de XML de Nota Fiscal Eletrônica (NF-e)](./leitor-nfe-xml)
+Extração automática de dados de notas fiscais a partir do XML oficial (número, fornecedor, CNPJ, valores), consolidando várias notas num único Excel.
+**Stack:** Python, xml.etree.ElementTree
+
 **Stack:** Python, Power BI
 
 ## Sobre
