@@ -22,6 +22,11 @@ Extração automática de transações (data, descrição, valor) de PDFs de ext
 
 **Stack:** Python, pdfplumber
 
+### 5. [App de Geração de Lançamentos (Streamlit)](./app-gerador-lancamentos)
+Interface web sobre o Projeto 2, com upload de arquivo, cards de métrica e download do resultado — leva a mesma lógica de terminal pra um aplicativo usável por qualquer pessoa.
+
+**Stack:** Python, Streamlit
+
 ### 6. [Painel Financeiro — Contas a Pagar e Receber (Power BI avançado)](./dashboard-financeiro-avancado)
 Modelo de dados relacional (5 tabelas, esquema estrela) com medidas DAX e visuais cruzando fornecedores, clientes e saldo do período.
 
