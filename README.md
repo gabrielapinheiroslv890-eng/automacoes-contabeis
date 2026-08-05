@@ -36,6 +36,9 @@ Modelo de dados relacional (5 tabelas, esquema estrela) com medidas DAX e visuai
 Extração automática de dados de notas fiscais a partir do XML oficial (número, fornecedor, CNPJ, valores), consolidando várias notas num único Excel.
 **Stack:** Python, xml.etree.ElementTree
 
+
+### 8. [Relatório Executivo Multipágina (Python + Power BI)](./relatorio-executivo-multipagina)
+Indicadores de cliente calculados em Python (ticket médio, % inadimplência) alimentando um relatório Power BI de 4 páginas navegáveis por botão, estilo apresentação.
 **Stack:** Python, Power BI
 
 ## Sobre
