@@ -7,6 +7,7 @@ com débito/crédito em partida dobrada.
 """
 
 import pandas as pd
+import sys
 
 ARQUIVO_DESPESAS = "despesas.xlsx"
 ARQUIVO_PLANO_CONTAS = "plano_contas.xlsx"
@@ -57,7 +58,7 @@ def gerar_lancamentos(despesas, plano_de_contas):
 
 def validar_partida_dobrada(lancamentos):
     total_debito = lancamentos["Valor"].sum()
-    total_credito = lancamentos["Valor"].sum()
+    total_credito = lancamentos["Valor"].sum()  # cada linha já é 1 débito + 1 crédito do mesmo valor
     diferenca = round(total_debito - total_credito, 2)
     if diferenca != 0:
         raise ValueError(f"Partida dobrada não fecha! Diferença: R$ {diferenca}")
@@ -65,8 +66,11 @@ def validar_partida_dobrada(lancamentos):
 
 
 def main():
-    plano_de_contas = carregar_plano_de_contas(ARQUIVO_PLANO_CONTAS)
-    despesas = carregar_despesas(ARQUIVO_DESPESAS)
+    arquivo_despesas = sys.argv[1]
+    arquivo_plano_contas = sys.argv[2]
+
+    plano_de_contas = carregar_plano_de_contas(arquivo_plano_contas)
+    despesas = carregar_despesas(arquivo_despesas)
     lancamentos = gerar_lancamentos(despesas, plano_de_contas)
 
     total = validar_partida_dobrada(lancamentos)
@@ -82,5 +86,6 @@ def main():
         print("Todas as despesas foram classificadas automaticamente.")
 
 
+   
 if __name__ == "__main__":
     main()
